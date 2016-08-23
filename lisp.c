@@ -39,20 +39,37 @@ A 'MVP' lisp, only functions, symbols, integers and FFI
 
 /* Read the stream until a Space or End of File*/
 
-/* NZ_Symbol* nz_read_symbol(FILE *in) { */
-/*   int c; */
-/*   while(1) { */
-/*     c = getchar(c); */
-/*     if isspace(c) { */
-/*         break; */
-/*       }; */
+static char buf[MAX_SYMBOL_LENGTH]; // For reading symbols
+
+// NZ_Symbol*
+char *
+nz_read_symbol(FILE *in) {
+  /* Read up to 10 chars before rellocating the string */
+  int c;
+  int currentBufferLength = 0;
+
+  while(1) {
+    c = getc(in);
+    if (c == EOF)
+      perror("Unexpected EOF");
     
-/*     if (isalphanum(c)) { */
-/*     } */
-      
-/*       }; */
-/*   make_symbol(string); */
-/* } */
+    if isspace(c) {
+        buf[currentBufferLength] = '\0';
+        return buf;
+        // return make_symbol(buf);
+        break;
+      };
+    
+    if (!isalnum(c))
+      perror("Unrecognized Character");
+
+    buf[currentBufferLength] = c;
+    currentBufferLength++;
+    if (currentBufferLength == MAX_SYMBOL_LENGTH)
+      perror("Exceeded Max symbol length");
+  };
+  // make_symbol(string);
+}
 
 int nz_read_integer(FILE *in) {
   int c;

@@ -14,9 +14,12 @@ all: nz lisp
 nz: lisp.c
 	$(CC) $@.c $(CCFLAGS) -o $@
 
-test: read-integer
+test: read-integer read-symbol
 
 read-integer: t/read-integer.c lisp.o
+	$(CC) $(CFLAGS)  $^ -o bin/$@
+
+read-symbol: t/read-symbol.c lisp.o
 	$(CC) $(CFLAGS)  $^ -o bin/$@
 
 clean:
