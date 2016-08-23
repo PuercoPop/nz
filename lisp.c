@@ -66,29 +66,6 @@ int nz_read_integer(FILE *in) {
     result += c - 48;
   }
   return result;
-};
-
-int main(int argc, char **argv) {
-  // Test reading an expression and printing it.
-  if (argc < 2) {
-    printf("Missing filename to process\n");
-    return -1;
-  }
-
-  FILE *f = fopen(argv[1], "r");
-  if (f == NULL) perror("Unable to open file");
-  int i = nz_read_integer(f);
-  printf("%i\n", i);
-
-  return 1;
-  
-  // The REPL
-  /* while(1) { */
-  /*   write_lisp(eval(nz_read(stdin), NULL), stdout); */
-  /*   putchar('\n'); */
-  /*   fflush(stdout); */
-  /* } */
-  /* return 1; */
 }
 
 #endif
