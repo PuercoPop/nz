@@ -10,7 +10,7 @@ A 'MVP' lisp, only functions, symbols, integers and FFI
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-/* #include "lisp.h" */
+#include "lisp.h"
 
 /* typedef enum { */
 /*   EOF, */
