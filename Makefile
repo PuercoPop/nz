@@ -12,7 +12,7 @@ all: nz lisp
 	$(CC) $(CFLAGS) $< -c
 
 nz: lisp.c
-	$(CC) $@.c $(CCFLAGS) -o $@
+	$(CC) $@.c $(CFLAGS) -o $@
 
 test: read-integer read-symbol
 
