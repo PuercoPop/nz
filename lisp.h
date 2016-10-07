@@ -14,9 +14,14 @@ enum {
 #define MAX_SYMBOL_LENGTH 100
 
 typedef struct Symbol {
+typedef struct NZ_Symbol {
   char* name;
-};
+} NZ_Symbol;
 
+
+
+// Symbols.h
+NZ_Symbol make_symbol(char *);
 
 
 // Read.h

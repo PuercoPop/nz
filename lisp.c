@@ -41,6 +41,14 @@ A 'MVP' lisp, only functions, symbols, integers and FFI
 
 static char buf[MAX_SYMBOL_LENGTH]; // For reading symbols
 
+NZ_Symbol
+make_symbol(char *symbol_name)
+{
+  NZ_Symbol sym;
+  sym.name = symbol_name;
+  return sym;
+}
+
 // NZ_Symbol*
 char *
 nz_read_symbol(FILE *in) {
