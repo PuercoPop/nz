@@ -1,11 +1,9 @@
 /* Copyright 2016 Javier Olaechea
 
-A 'MVP' lisp, only functions, symbols, integers and FFI
+A 'MVP' lisp, only functions, symbols, integers, and FFI. We should probably
+ include strings.
 
  */
-
-#ifndef LISP_C
-#define LISP_C
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,7 +52,7 @@ char *
 nz_read_symbol(FILE *in) {
   /* Read up to 10 chars before rellocating the string */
   int c;
-  int currentBufferLength = 0;
+  size_t currentBufferLength = 0;
 
   while(1) {
     c = getc(in);
@@ -79,7 +77,8 @@ nz_read_symbol(FILE *in) {
   // make_symbol(string);
 }
 
-int nz_read_integer(FILE *in) {
+int
+nz_read_integer(FILE *in) {
   int c;
   int result = 0;
   while(1) {
@@ -92,5 +91,3 @@ int nz_read_integer(FILE *in) {
   }
   return result;
 }
-
-#endif
