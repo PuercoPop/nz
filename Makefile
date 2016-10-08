@@ -1,7 +1,4 @@
-CC = clang
-LIBS =
-CFLAGS = -Wall -Wpedantic -g -std=c11
-LDFLAGS = -static ${LIBS}
+include config.mk
 
 SRCS = lisp.c
 OBJS = $(SRCS:.c=.o)
@@ -12,7 +9,7 @@ all: nz lisp
 	$(CC) $(CFLAGS) $< -c
 
 nz: lisp.c
-	$(CC) $@.c $(CFLAGS) -o $@
+	$(CC) $@.c $(CFLAGS) -o bin/$@
 
 test: read-integer read-symbol
 
