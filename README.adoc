@@ -1,3 +1,0 @@
-= NZ (Not Zile)
-
-A Small Extensible editor, designed to try out a sensible xembed design as a prototype to propose to GNU Emacs
