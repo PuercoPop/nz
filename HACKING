@@ -1,0 +1,18 @@
+Start writing everything I can in Guile Scheme.
+
+- Buffer
+- Miniprompt
+- Windows
+- Work with ncurses
+
+= Buffers
+
+Representation gap-buffer, rope or a splay-tree with gap-buffers for each line
+
+== References
+- Guile's gap buffer documentation http://gnuvola.org/software/guile/doc/Gap-Buffer.html
+- http://metamodular.com/cluffer.pdf
+
+= Testing
+
+ProTest, property-testing for guile https://github.com/ThatGeoGuy/ProTest
