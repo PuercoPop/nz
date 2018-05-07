@@ -16,3 +16,13 @@ Representation gap-buffer, rope or a splay-tree with gap-buffers for each line
 = Testing
 
 ProTest, property-testing for guile https://github.com/ThatGeoGuy/ProTest
+
+If using the testing API SRFI we can disable logging to file with (set! test-log-to-file #f)
+
+
+= ROADMAP
+
+- p: print a file
+- pp: print a file one screen at the time.
+- m: CLI version of dmenu
+- w: print and edit a file

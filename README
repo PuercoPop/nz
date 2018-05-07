@@ -3,6 +3,12 @@ NZ (Not Zile)
 
 A Small Extensible editor.
 
+Snippets
+===
+m - A vertical menu.
+p - A prompt that echos back the input.
+w - Write the line of a file.
+
 License
 =======
 
