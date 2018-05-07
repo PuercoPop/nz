@@ -8,6 +8,12 @@
 #include <string.h>
 #include <sys/ioctl.h>
 
+static struct termios term, term_prev;
+static struct winsize sz;
+static struct sigaction sa;
+
+void cleanup();
+
 void
 die(char *msg, ...)
 {
@@ -19,34 +25,43 @@ die(char *msg, ...)
   exit(1);
 }
 
-static struct termios term, term_prev;
-static struct winsize sz;
 void
 sigint(const int signo)
 {
-  tcsetattr(0, TCSANOW, &term_prev);
+  cleanup();
   exit(0);
 }
 
-int
-main(int argc, char *argv[])
+void
+setup()
 {
-  struct sigaction sa;
   memset(&sa, 0, sizeof(sa));
   sa.sa_handler = sigint;
   if(sigaction(SIGINT, &sa, NULL))
     die("Could not setup sigterm handler\n");
 
-  // Get the LINE and COLS
   tcgetattr(0, &term_prev);
   term = term_prev;
   term.c_iflag &= ~(ICANON|ECHO|ECHONL);
   tcsetattr(0, TCSANOW, &term);
+}
+
+void
+cleanup()
+{
+  tcsetattr(0, TCSANOW, &term_prev);
+}
+
+int
+main(int argc, char *argv[])
+{
+  setup();
 
   ioctl(0, TIOCGWINSZ, &sz);
   
   printf("COLS: %d\n", sz.ws_col);
   printf("ROWS: %d\n", sz.ws_row);
- 
+
+  cleanup();
   return EXIT_SUCCESS;
 }
