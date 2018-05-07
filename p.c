@@ -32,13 +32,13 @@ main(int argc, char *argv[])
   char buf[BUFSIZ];
 
   int len;
-  len = read(fd, buf, BUFSIZ);
   for(len = read(fd, buf, BUFSIZ);
       len > 0;
       len = read(fd, buf, BUFSIZ))
   {
     write(1, buf, len);
   }
+  printf("len: %d", len);
 
   close(fd);
   
