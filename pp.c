@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <termios.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <string.h>
+#include <sys/ioctl.h>
 
 void
 die(char *msg, ...)
@@ -17,11 +19,12 @@ die(char *msg, ...)
   exit(1);
 }
 
+static struct termios term, term_prev;
+static struct winsize sz;
 void
 sigint(const int signo)
 {
-  printf("Why you interrupted me?\n");
-  printf("  Why don't you respect my concentration\n");
+  tcsetattr(0, TCSANOW, &term_prev);
   exit(0);
 }
 
@@ -34,9 +37,16 @@ main(int argc, char *argv[])
   if(sigaction(SIGINT, &sa, NULL))
     die("Could not setup sigterm handler\n");
 
-  for(;;)
-  {
-  }
+  // Get the LINE and COLS
+  tcgetattr(0, &term_prev);
+  term = term_prev;
+  term.c_iflag &= ~(ICANON|ECHO|ECHONL);
+  tcsetattr(0, TCSANOW, &term);
+
+  ioctl(0, TIOCGWINSZ, &sz);
+  
+  printf("COLS: %d\n", sz.ws_col);
+  printf("ROWS: %d\n", sz.ws_row);
  
   return EXIT_SUCCESS;
 }
