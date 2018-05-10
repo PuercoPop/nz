@@ -12,5 +12,8 @@ p: p.c
 pp: pp.c
 	@$(CC) $(CFLAGS) pp.c -o bin/$@ $(INCS)
 
+pp-1: pp-1.c
+	@$(CC) $(CFLAGS) pp-1.c -o bin/$@ $(INCS)
+
 w: w.c
 	@$(CC) $(CFLAGS) w.c -o bin/$@ $(INCS) $(LIBS)
