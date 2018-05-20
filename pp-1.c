@@ -5,15 +5,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
+
+int in;
 
 // FileBuffer
 typedef struct Buffer {
-  int descriptor;
-  char char_buffer[BUFSIZ]
+    char *contents;
+    size_t curr_size;
+    size_t max_size;
+    bool eof;
 } Buffer;
 
-struct Buffer buff;
+struct Buffer buf;
 
 void
 die(char *msg, ...)
@@ -30,17 +38,40 @@ void
 setup(int argc, char *argv[])
 {
     char *fpath = argv[1];
-    int fd = open(fpath, O_RDONLY);
-    if(fd < 0)
+    in = open(fpath, O_RDONLY);
+    if(in < 0)
       die("Could not open file: %s.\n", fpath);
 
-    buff.descriptor = fd;
+    buf.contents = malloc(BUFSIZ);
+    if (buf.contents == NULL) {
+        die("Could not allocate buffer memory");
+    }
+    buf.curr_size = 0;
+    buf.max_size = BUFSIZ;
 }
 
-char *
-read_line(struct buffer)
+void
+read_line(Buffer buff)
 {
-  
+    char next_char;
+    int err;
+
+    buf.eof = false;
+    memset(buf.contents, '\0', buf.max_size);
+    for(buf.curr_size = 0; buf.curr_size < BUFSIZ; buf.curr_size++) {
+        err = read(in, &next_char, 1);
+
+        if (err < 0)
+            perror("");
+
+        if (err == 0)
+            buf.eof = true;
+        
+        if(next_char == '\n' ) {
+            break;
+        }
+        buf.contents[buf.curr_size] = next_char;
+    }
 }
 
 int
@@ -51,10 +82,12 @@ main(int argc, char *argv[])
 
   setup(argc, argv);
 
-  /* char *line; */
-  /* for(line = read_line(buffer); */
-  /*     !(line == EOF); */
-  /*     line = read_line(buffer)) */
+  for(read_line(buf);
+      !(buf.eof);
+      read_line(buf))
+  {
+      printf("%s\n", buf.contents);
+  }
                
     
   return EXIT_SUCCESS;
