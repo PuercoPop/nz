@@ -85,6 +85,7 @@ read_line(Buffer buff)
             memset(tmp, '\0', buf.max_size);
 
             memcpy(tmp, buf.contents, buf.curr_size - 1);
+            free(buf.contents);
             buf.contents = tmp;
         }
     }
