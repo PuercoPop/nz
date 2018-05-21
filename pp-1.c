@@ -98,13 +98,10 @@ main(int argc, char *argv[])
 
   setup(argc, argv);
 
-  for(read_line(buf);
-      !(buf.eof);
-      read_line(buf))
-  {
+  do {
+      read_line(buf);
       printf("%s", buf.contents);
-  }
-  printf("%s\n", buf.contents);
+  } while(!buf.eof);
 
   return EXIT_SUCCESS;
 }
