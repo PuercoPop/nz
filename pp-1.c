@@ -58,19 +58,35 @@ read_line(Buffer buff)
 
     buf.eof = false;
     memset(buf.contents, '\0', buf.max_size);
-    for(buf.curr_size = 0; buf.curr_size < BUFSIZ; buf.curr_size++) {
+    buf.curr_size = 0;
+    for(;;) {
         err = read(in, &next_char, 1);
-
         if (err < 0)
-            perror("");
+            perror("error reading file");
 
-        if (err == 0)
+        if (err == 0) {
             buf.eof = true;
+            break;
+        }
         
+        buf.contents[buf.curr_size] = next_char;
         if(next_char == '\n' ) {
             break;
         }
-        buf.contents[buf.curr_size] = next_char;
+
+        buf.curr_size++;
+
+        if (buf.curr_size > buf.max_size) {
+            char *tmp;
+            buf.max_size *= 1.5;
+            tmp = malloc(buf.max_size);
+            if (tmp == NULL)
+                die("Could not grow buffer");
+            memset(tmp, '\0', buf.max_size);
+
+            memcpy(tmp, buf.contents, buf.curr_size - 1);
+            buf.contents = tmp;
+        }
     }
 }
 
@@ -86,9 +102,9 @@ main(int argc, char *argv[])
       !(buf.eof);
       read_line(buf))
   {
-      printf("%s\n", buf.contents);
+      printf("%s", buf.contents);
   }
-               
-    
+  printf("%s\n", buf.contents);
+
   return EXIT_SUCCESS;
 }
