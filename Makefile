@@ -1,7 +1,7 @@
 CC = gcc
 INCS = -I. -I/usr/include
 LIBS = -L/usr/lib -lreadline -lc
-CFLAGS = -std=c99 -Wall -Werror -pedantic -D_XOPEN_SOURCE ${INCS}
+CFLAGS = -std=c99 -Wall -Werror -pedantic -g -D_XOPEN_SOURCE ${INCS}
 
 m: m.c
 	@$(CC) $(CFLAGS) m.c -o bin/$@ $(INCS)
